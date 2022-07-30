@@ -1,0 +1,8 @@
+file:
+  inFileName: in.xlsx
+  outFileName: out.xlsx
+  sheet: Sheet1
+  ip: 0
+  port: 1
+  user: 2
+  password: 3
