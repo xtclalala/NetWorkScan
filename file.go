@@ -15,17 +15,15 @@ type worker struct {
 	password string
 }
 
-var (
-	inFilename  = global.File.InFileName
-	outFilename = global.File.OutFileName
-	sheet       = global.File.Sheet
-	ip          = global.File.Ip
-	port        = global.File.Port
-	user        = global.File.User
-	password    = global.File.Password
-)
-
 func ReadFile(workers *[]*worker) error {
+	var (
+		inFilename = global.File.InFileName
+		sheet      = global.File.Sheet
+		ip         = global.File.Ip
+		port       = global.File.Port
+		user       = global.File.User
+		password   = global.File.Password
+	)
 	file, err := excelize.OpenFile(inFilename)
 	defer file.Close()
 	if err != nil {
@@ -48,6 +46,10 @@ func ReadFile(workers *[]*worker) error {
 }
 
 func WriteFile(data *sync.Map) error {
+	var (
+		sheet       = global.File.Sheet
+		outFilename = global.File.OutFileName
+	)
 	file := excelize.NewFile()
 	defer file.Close()
 	index := file.NewSheet(sheet)
