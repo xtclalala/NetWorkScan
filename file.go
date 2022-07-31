@@ -55,18 +55,14 @@ func WriteFile(data *sync.Map) error {
 	index := file.NewSheet(sheet)
 	file.SetActiveSheet(index)
 
-	i := 1
 	data.Range(func(key, value any) bool {
 		// 设置单元格的值
-		si := strconv.Itoa(i)
-		va := value.([]string)
-		file.SetCellStr(sheet, "A"+si, fmt.Sprintf("%s", key))
-		file.SetCellStr(sheet, "B"+si, va[0])
-		file.SetCellStr(sheet, "C"+si, va[1])
-		file.SetCellStr(sheet, "D"+si, va[2])
-		file.SetCellStr(sheet, "E"+si, va[3])
-		file.SetCellStr(sheet, "E"+si, va[4])
-		i++
+
+		values := value.([]string)
+		for index, item := range values {
+			column := strconv.Itoa(65+index) + strconv.Itoa(index+1)
+			file.SetCellStr(sheet, column, item)
+		}
 		return true
 	})
 

@@ -6,3 +6,7 @@ file:
   port: 1
   user: 2
   password: 3
+burst:
+  burstNum: 2
+connect:
+  timeout: 5

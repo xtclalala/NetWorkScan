@@ -6,7 +6,9 @@ import (
 )
 
 type Config struct {
-	File *file `mapstructure:"file"`
+	File    *file    `mapstructure:"file"`
+	Burst   *burst   `mapstructure:"burst"`
+	Connect *connect `mapstructure:"connect"`
 }
 
 type file struct {
@@ -17,6 +19,14 @@ type file struct {
 	Port        int    `mapstructure:"port"`
 	User        int    `mapstructure:"user"`
 	Password    int    `mapstructure:"password"`
+}
+
+type burst struct {
+	BurstNum int `mapstructure:"burstNum"`
+}
+
+type connect struct {
+	Timeout int64 `mapstructure:"timeout"`
 }
 
 var global = new(Config)

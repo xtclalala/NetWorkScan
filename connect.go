@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/ssh"
+	"time"
 )
 
 type Ssh struct {
@@ -36,6 +37,7 @@ func (s *Ssh) Connect() {
 		User:            s.user,
 		Auth:            []ssh.AuthMethod{ssh.Password(s.password)},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		Timeout:         time.Second * time.Duration(global.Connect.Timeout),
 	})
 	if err != nil {
 		s.connectErr = errors.Wrap(err, "connect fail;"+s.errIdentify)
