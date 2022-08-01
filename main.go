@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-
 	// read config file
 	InitConfig()
 
@@ -16,20 +15,25 @@ func main() {
 	if err := ReadFile(workers); err != nil {
 		log.Fatalf(err.Error())
 	}
-	// 获取cmd
-	cmd := "cd / & ls"
+
 	data := &sync.Map{}
 	var fns []func()
 	for _, item := range *workers {
-		worker := item
-		var fn = func() {
-			// 连接
-			s := NewSsh(worker.ip, worker.port, worker.user, worker.password)
-			s.Connect()
-			// you can do something
-			out, _ := s.RunCmd(cmd)
-			data.Store(worker.ip, []string{worker.ip, worker.port, worker.user, worker.password, cmd, out})
-		}
+		var fn = func(worker *worker) func() {
+			return func() {
+				// connect
+				s := NewSsh(worker.ip, worker.port, worker.user, worker.password)
+				s.Connect()
+				s.GetOS()
+				values := s.Save()
+				// you can do something, run diy cmd
+				//out, _ := s.RunCmd(cmd)
+				res := s.ScanOS()
+				values = append(values, res...)
+				data.Store(worker.ip, values)
+			}
+
+		}(item)
 		fns = append(fns, fn)
 
 	}
@@ -43,7 +47,3 @@ func main() {
 	}
 
 }
-
-// 1.识别linux操作系统的发行版本    cat /etc/os-release openEuler centos PRETTY_NAME hostnamectl
-// 2.命令
-// 3.超时处理

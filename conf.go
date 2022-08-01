@@ -9,6 +9,7 @@ type Config struct {
 	File    *file    `mapstructure:"file"`
 	Burst   *burst   `mapstructure:"burst"`
 	Connect *connect `mapstructure:"connect"`
+	Os      *os      `mapstructure:"os"`
 }
 
 type file struct {
@@ -27,6 +28,11 @@ type burst struct {
 
 type connect struct {
 	Timeout int64 `mapstructure:"timeout"`
+}
+
+type os struct {
+	Base      []string `mapstructure:"base"`
+	OpenEuler []string `mapstructure:"openEuler"`
 }
 
 var global = new(Config)

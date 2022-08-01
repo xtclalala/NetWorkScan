@@ -7,6 +7,12 @@ file:
   user: 2
   password: 3
 burst:
-  burstNum: 2
+  burstNum: 1
 connect:
   timeout: 5
+os:
+  base:
+    - cd / & ls
+    - ls
+  openEuler:
+    - cd / & ls

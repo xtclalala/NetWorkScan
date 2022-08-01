@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/xuri/excelize/v2"
 	"strconv"
+	"strings"
 	"sync"
 )
 
@@ -54,15 +55,15 @@ func WriteFile(data *sync.Map) error {
 	defer file.Close()
 	index := file.NewSheet(sheet)
 	file.SetActiveSheet(index)
-
+	i := 1
 	data.Range(func(key, value any) bool {
 		// 设置单元格的值
-
 		values := value.([]string)
 		for index, item := range values {
-			column := strconv.Itoa(65+index) + strconv.Itoa(index+1)
-			file.SetCellStr(sheet, column, item)
+			column := string(65+index) + strconv.Itoa(i)
+			file.SetCellStr(sheet, column, strings.Trim(item, "\n"))
 		}
+		i++
 		return true
 	})
 
