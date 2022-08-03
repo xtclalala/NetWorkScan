@@ -27,38 +27,19 @@ func (s *LinuxOS) getCommands() []string {
 	return s.commands
 }
 
-type Centos struct {
-	LinuxOS
-}
-type Ubuntu struct {
-	LinuxOS
-}
-type OpenEuler struct {
-	LinuxOS
-}
-
 func NewOS(osStr string) iLinuxOS {
 	osStr = strings.ToLower(osStr)
-	switch {
 
-	case strings.IndexAny(osStr, "openeuler") != -1:
-		return &OpenEuler{LinuxOS{
-			name:     osStr,
-			commands: global.Os.OpenEuler,
-		}}
-	case strings.IndexAny(osStr, "centos") != -1:
-		return &Centos{LinuxOS{
-			name: osStr,
-		}}
-	case strings.IndexAny(osStr, "ubuntu") != -1:
-		return &Ubuntu{LinuxOS{
-			name: osStr,
-		}}
-	default:
-		return &LinuxOS{
-			name:     osStr,
-			commands: global.Os.Base,
+	for osName, commands := range OSConfig {
+		if strings.IndexAny(osStr, strings.ToUpper(osName)) != -1 {
+			return &LinuxOS{
+				name:     osName,
+				commands: commands,
+			}
 		}
 	}
-
+	return &LinuxOS{
+		name:     osStr,
+		commands: OSConfig["base"],
+	}
 }

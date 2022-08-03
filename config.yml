@@ -14,5 +14,5 @@ os:
   base:
     - cd / & ls
     - ls
-  openEuler:
+  centos:
     - cd / & ls

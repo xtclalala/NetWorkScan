@@ -1,5 +1,11 @@
 ## NetWorkScan
-> 利用配置文件控制程序，配置文件名：config.yml
+> 连接linux，并执行相对应命令，利用配置文件控制程序
+
+命令行参数
+1. path
+   - 执行配置文件路径，默认：../config.yml
+   - 例子：xxxx --path=../config.yml
+
 ```yaml
 // 文件相关配置
 file:
@@ -24,11 +30,11 @@ connect:
   timeout: 5
 // 系统相关配置
 os:
-  // 没有在程序中添加的系统执行默认命令
+  // 没有识别出系统的，执行默认命令
   base:
     - cd / & ls
     - ls
-  // 对应系统需要执行命令
+  // 识别出对应系统，并执行一下命令
   openEuler:
     - cd / & ls
 ```

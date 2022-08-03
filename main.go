@@ -1,14 +1,20 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
+	"os"
 	"sync"
 )
 
+var cliConfigPath = flag.String("path", "../config.yml", "config fail path")
+
 func main() {
+	flag.Parse()
+
 	// read config file
-	InitConfig()
+	InitConfig(*cliConfigPath)
 
 	// read check file
 	workers := new([]*worker)
@@ -27,7 +33,6 @@ func main() {
 				s.GetOS()
 				values := s.Save()
 				// you can do something, run diy cmd
-				//out, _ := s.RunCmd(cmd)
 				res := s.ScanOS()
 				values = append(values, res...)
 				data.Store(worker.ip, values)
@@ -38,12 +43,11 @@ func main() {
 
 	}
 	Start(fns)
-	data.Range(func(key, value any) bool {
-		fmt.Printf("key:%v value: %v\n", key, value)
-		return true
-	})
 	if err := WriteFile(data); err != nil {
 		log.Fatalf(err.Error())
 	}
+	fmt.Printf("按任意键退出...")
+	in := make([]byte, 1)
+	os.Stdin.Read(in)
 
 }
