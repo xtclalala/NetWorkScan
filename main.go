@@ -2,9 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
-	"os"
 	"sync"
 )
 
@@ -30,12 +28,9 @@ func main() {
 				// connect
 				s := NewSsh(worker.ip, worker.port, worker.user, worker.password)
 				s.Connect()
-				s.GetOS()
-				values := s.Save()
 				// you can do something, run diy cmd
 				res := s.ScanOS()
-				values = append(values, res...)
-				data.Store(worker.ip, values)
+				data.Store(worker.ip, res)
 			}
 
 		}(item)
@@ -46,8 +41,9 @@ func main() {
 	if err := WriteFile(data); err != nil {
 		log.Fatalf(err.Error())
 	}
-	fmt.Printf("按任意键退出...")
-	in := make([]byte, 1)
-	os.Stdin.Read(in)
 
+}
+
+type Message struct {
+	Os string
 }

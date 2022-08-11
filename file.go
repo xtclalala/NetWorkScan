@@ -58,12 +58,11 @@ func WriteFile(data *sync.Map) error {
 	i := 1
 	data.Range(func(key, value any) bool {
 		// 设置单元格的值
-		values := value.([]string)
-		for index, item := range values {
-			column := string(65+index) + strconv.Itoa(i)
-			file.SetCellStr(sheet, column, strings.Trim(item, "\n"))
-		}
+		values := value.(string)
+		column := string(65) + strconv.Itoa(i)
+		file.SetCellStr(sheet, column, strings.Trim(values, "\n"))
 		i++
+
 		return true
 	})
 

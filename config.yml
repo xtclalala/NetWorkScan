@@ -10,9 +10,8 @@ burst:
   burstNum: 1
 connect:
   timeout: 5
-os:
-  base:
-    - cd / & ls
-    - ls
-  centos:
-    - cd / & ls
+
+shell:
+  name: test.sh
+  absPath: /download
+  localPath: ./docs/shell

@@ -9,6 +9,7 @@ type Config struct {
 	File    *file    `mapstructure:"file"`
 	Burst   *burst   `mapstructure:"burst"`
 	Connect *connect `mapstructure:"connect"`
+	Shell   *shell   `mapstructure:"shell"`
 }
 
 type file struct {
@@ -29,8 +30,13 @@ type connect struct {
 	Timeout int64 `mapstructure:"timeout"`
 }
 
+type shell struct {
+	Name      string `mapstructure:"name"`
+	AbsPath   string `mapstructure:"absPath"`
+	LocalPath string `mapstructure:"localPath"`
+}
+
 var global = new(Config)
-var OSConfig map[string][]string
 
 func InitConfig(configPath string) {
 	viper.SetConfigType("yaml")
@@ -39,9 +45,7 @@ func InitConfig(configPath string) {
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-
 	err = viper.Unmarshal(global)
-	OSConfig = viper.GetStringMapStringSlice("os")
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
