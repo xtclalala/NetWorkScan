@@ -100,7 +100,7 @@ func (s *Ssh) ScanOS() string {
 	// upload sh script
 	_ = s.UploadShell()
 	// run sh script
-	//res, _ = s.RunShell()
+	res, _ = s.RunShell()
 	// return response
 	return res
 }

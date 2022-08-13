@@ -43,7 +43,3 @@ func main() {
 	}
 
 }
-
-type Message struct {
-	Os string
-}
